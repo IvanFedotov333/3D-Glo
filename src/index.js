@@ -1,12 +1,12 @@
 import timer from "./modules/timer";
-import menu from "./modules/menu";
+import toggleMenu from "./modules/menu";
 import modal from "./modules/modal";
 import smoothScroll from "./modules/scroll";
 import inputValidation from "./modules/validation";
 import tabs from "./modules/tabs";
 
 timer("21 december 2026");
-menu();
+toggleMenu();
 modal();
 inputValidation();
 tabs();
