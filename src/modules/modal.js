@@ -1,7 +1,6 @@
 const modal = () => {
   const popupBtn = document.querySelectorAll(".popup-btn");
   const popupMenu = document.querySelector(".popup");
-  const popupCls = popupMenu.querySelector(".popup-close");
 
   const isMobile = () => window.innerWidth < 768;
 
@@ -31,8 +30,13 @@ const modal = () => {
     btn.addEventListener("click", animatedModal);
   });
 
-  popupCls.addEventListener("click", () => {
-    popupMenu.style.display = "none";
+  popupMenu.addEventListener("click", (e) => {
+    if (
+      !e.target.closest(".popup-content") ||
+      e.target.classList.contains("popup-close")
+    ) {
+      popupMenu.style.display = "none";
+    }
   });
 };
 

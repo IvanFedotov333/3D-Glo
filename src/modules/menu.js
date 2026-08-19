@@ -3,26 +3,26 @@ import smoothScroll from "./scroll";
 const menu = () => {
   const btnMenu = document.querySelector(".menu");
   const listMenu = document.querySelector("menu");
-  const btnClose = listMenu.querySelector(".close-btn");
-  const itemsMenu = listMenu.querySelectorAll("ul>li>a");
 
-  const handleMenu = () => {
+  btnMenu.addEventListener("click", () => {
     listMenu.classList.toggle("active-menu");
-  };
+  });
 
-  btnMenu.addEventListener("click", handleMenu);
-  btnClose.addEventListener("click", handleMenu);
-
-  itemsMenu.forEach((item) => {
-    item.addEventListener("click", (e) => {
+  listMenu.addEventListener("click", (e) => {
+    if (e.target.closest(".close-btn")) {
+      listMenu.classList.remove("active-menu");
+      return;
+    }
+    const menuLink = e.target.closest("ul>li>a");
+    if (menuLink) {
       e.preventDefault();
-      const targetId = item.getAttribute("href").slice(1);
+      const targetId = menuLink.getAttribute("href").slice(1);
       const target = document.getElementById(targetId);
       if (target) {
         smoothScroll(target);
         listMenu.classList.remove("active-menu");
       }
-    });
+    }
   });
 };
 export default menu;
