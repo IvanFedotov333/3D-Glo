@@ -1,9 +1,19 @@
 const slider = () => {
   const sliderBlock = document.querySelector(".portfolio-content");
   const slides = document.querySelectorAll(".portfolio-item");
-  const dots = document.querySelectorAll(".dot");
-  const timeInterval = 2000;
+  const dotsContainer = document.querySelector(".portfolio-dots");
 
+  dotsContainer.innerHTML = "";
+  for (let i = 0; i < slides.length; i++) {
+    const dot = document.createElement("li");
+    dot.classList.add("dot");
+    if (i === 0) dot.classList.add("dot-active");
+    dotsContainer.appendChild(dot);
+  }
+  const dots = document.querySelectorAll(".dot");
+
+  
+  const timeInterval = 2000;
   let currentSlide = 0;
   let interval;
   const prevSlide = (elems, index, strClass) => {
