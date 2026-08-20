@@ -4,12 +4,14 @@ import modal from "./modules/modal";
 import smoothScroll from "./modules/scroll";
 import inputValidation from "./modules/validation";
 import tabs from "./modules/tabs";
+import slider from "./modules/slider";
 
 timer("21 december 2026");
 toggleMenu();
 modal();
 inputValidation();
 tabs();
+slider();
 
 const scrollButton = document.querySelector('a[href="#service-block"]');
 scrollButton.addEventListener("click", (e) => {
