@@ -1,21 +1,26 @@
-const slider = () => {
-  const sliderBlock = document.querySelector(".portfolio-content");
-  const slides = document.querySelectorAll(".portfolio-item");
-  const dotsContainer = document.querySelector(".portfolio-dots");
+const slider = (options) => {
+  const sliderBlock = document.querySelector(options.sliderBlock);
+  if (!sliderBlock) return;
+  const slides = document.querySelectorAll(options.slides);
+  if (slides.length === 0) return;
+  const dotsContainer = document.querySelector(options.dotsContainer);
+  if (!dotsContainer) return;
+  const activeSlideClass = options.activeSlideClass || "slide-active";
+  const activeDotClass = options.activeDotClass || "dot-active";
+  const dotClass = options.dotClass || "dot";
 
   dotsContainer.innerHTML = "";
   for (let i = 0; i < slides.length; i++) {
     const dot = document.createElement("li");
-    dot.classList.add("dot");
-    if (i === 0) dot.classList.add("dot-active");
+    dot.classList.add(dotClass);
+    if (i === 0) dot.classList.add(activeDotClass);
     dotsContainer.appendChild(dot);
   }
-  const dots = document.querySelectorAll(".dot");
-
-  
+  const dots = document.querySelectorAll(`.${dotClass}`);
   const timeInterval = 2000;
   let currentSlide = 0;
   let interval;
+
   const prevSlide = (elems, index, strClass) => {
     elems[index].classList.remove(strClass);
   };
@@ -24,14 +29,14 @@ const slider = () => {
   };
 
   const autoSlide = () => {
-    prevSlide(slides, currentSlide, "portfolio-item-active");
-    prevSlide(dots, currentSlide, "dot-active");
+    prevSlide(slides, currentSlide, activeSlideClass);
+    prevSlide(dots, currentSlide, activeDotClass);
     currentSlide++;
     if (currentSlide >= slides.length) {
       currentSlide = 0;
     }
-    nextSlide(slides, currentSlide, "portfolio-item-active");
-    nextSlide(dots, currentSlide, "dot-active");
+    nextSlide(slides, currentSlide, activeSlideClass);
+    nextSlide(dots, currentSlide, activeDotClass);
   };
   const startSlide = (timer = 1500) => {
     interval = setInterval(autoSlide, timer);
@@ -41,17 +46,21 @@ const slider = () => {
   };
   sliderBlock.addEventListener("click", (e) => {
     e.preventDefault();
-    if (!e.target.matches(".dot, .portfolio-btn")) {
-      return;
-    }
-    prevSlide(slides, currentSlide, "portfolio-item-active");
-    prevSlide(dots, currentSlide, "dot-active");
+    const dotSelector = `.${dotClass}`;
+    const isDot = e.target.matches(dotSelector);
+    const isArrow = e.target.matches(
+      "#arrow-right, #arrow-left, .portfolio-btn",
+    );
+    if (!isDot && !isArrow) return;
+
+    prevSlide(slides, currentSlide, activeSlideClass);
+    prevSlide(dots, currentSlide, activeDotClass);
 
     if (e.target.matches("#arrow-right")) {
       currentSlide++;
     } else if (e.target.matches("#arrow-left")) {
       currentSlide--;
-    } else if (e.target.classList.contains("dot")) {
+    } else if (isDot) {
       dots.forEach((dot, index) => {
         if (e.target === dot) {
           currentSlide = index;
@@ -64,13 +73,13 @@ const slider = () => {
     if (currentSlide < 0) {
       currentSlide = slides.length - 1;
     }
-    nextSlide(slides, currentSlide, "portfolio-item-active");
-    nextSlide(dots, currentSlide, "dot-active");
+    nextSlide(slides, currentSlide, activeSlideClass);
+    nextSlide(dots, currentSlide, activeDotClass);
   });
   sliderBlock.addEventListener(
     "mouseenter",
     (e) => {
-      if (e.target.matches(".dot, .portfolio-btn")) {
+      if (e.target.matches(`.${dotClass}, .portfolio-btn`)) {
         stopSlide();
       }
     },
@@ -79,7 +88,7 @@ const slider = () => {
   sliderBlock.addEventListener(
     "mouseleave",
     (e) => {
-      if (e.target.matches(".dot, .portfolio-btn")) {
+      if (e.target.matches(`.${dotClass}, .portfolio-btn`)) {
         startSlide(timeInterval);
       }
     },

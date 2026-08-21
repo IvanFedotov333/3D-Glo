@@ -12,7 +12,14 @@ toggleMenu();
 modal();
 inputValidation();
 tabs();
-slider();
+slider({
+  sliderBlock: ".portfolio-content",
+  slides: ".portfolio-item",
+  dotsContainer: ".portfolio-dots",
+  activeSlideClass: "portfolio-item-active",
+  activeDotClass: "dot-active",
+  dotClass: "dot",
+});
 swiperCarousel();
 
 const scrollButton = document.querySelector('a[href="#service-block"]');
