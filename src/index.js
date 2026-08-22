@@ -6,6 +6,7 @@ import inputValidation from "./modules/validation";
 import tabs from "./modules/tabs";
 import slider from "./modules/slider";
 import swiperCarousel from "./modules/swiper";
+import calc from "./modules/calculator";
 
 timer("21 december 2026");
 toggleMenu();
@@ -21,10 +22,10 @@ slider({
   dotClass: "dot",
 });
 swiperCarousel();
-
 const scrollButton = document.querySelector('a[href="#service-block"]');
 scrollButton.addEventListener("click", (e) => {
   e.preventDefault();
   const target = document.getElementById("service-block");
   if (target) smoothScroll(target);
 });
+calc(100)
