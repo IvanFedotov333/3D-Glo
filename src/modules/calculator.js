@@ -5,6 +5,7 @@ const calc = (price = 100) => {
   const calcCount = document.querySelector(".calc-count");
   const calcDays = document.querySelector(".calc-day");
   const calcTotal = document.getElementById("total");
+  let animationId = null;
 
   const countCalc = () => {
     const calcTypeValue = +calcType.options[calcType.selectedIndex].value;
@@ -27,8 +28,37 @@ const calc = (price = 100) => {
     if (calcType.value && calcSquare.value) {
       totalValue =
         price * calcTypeValue * calcSquareValue * calcCountValue * calcDayValue;
-    } else totalValue = 0;
-    calcTotal.textContent = totalValue;
+    } else {
+      totalValue = 0;
+    }
+    animateTotal(totalValue);
+  };
+  const animateTotal = (target) => {
+    if (animationId !== null) {
+      cancelAnimationFrame(animationId);
+    }
+    const startValue = 0;
+    const targetValue = Math.round(target);
+    const duration = 500;
+    let startTime = null;
+
+    function step(timestep) {
+      if (startTime === null) {
+        startTime = timestep;
+      }
+      const elapsed = timestep - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const current = startValue + (targetValue - startValue) * progress;
+
+      calcTotal.textContent = Math.round(current);
+      if (progress < 1) {
+        animationId = requestAnimationFrame(step);
+      } else {
+        calcTotal.textContent = targetValue;
+        animationId = null;
+      }
+    }
+    animationId = requestAnimationFrame(step);
   };
   calcBlock.addEventListener("input", (e) => {
     if (
